@@ -4,6 +4,7 @@ nimbus = import_module("./nimbus/nimbus_launcher.star")
 prysm = import_module("./prysm/prysm_launcher.star")
 teku = import_module("./teku/teku_launcher.star")
 grandine = import_module("./grandine/grandine_launcher.star")
+cerver = import_module("./cerver/cerver_launcher.star")
 
 constants = import_module("../package_io/constants.star")
 input_parser = import_module("../package_io/input_parser.star")
@@ -71,6 +72,14 @@ def launch(
                 jwt_file,
             ),
             "launch_method": grandine.launch,
+        },
+        constants.CL_TYPE.cerver: {
+            "launcher": cerver.new_cerver_launcher(
+                el_cl_data,
+                jwt_file,
+                keymanager_file,
+            ),
+            "launch_method": cerver.launch,
         },
     }
 

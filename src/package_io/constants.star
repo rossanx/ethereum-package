@@ -16,6 +16,7 @@ CL_TYPE = struct(
     prysm="prysm",
     lodestar="lodestar",
     grandine="grandine",
+    cerver="cerver",
 )
 
 VC_TYPE = struct(
@@ -25,6 +26,7 @@ VC_TYPE = struct(
     prysm="prysm",
     teku="teku",
     vero="vero",
+    cerver="cerver",
 )
 
 REMOTE_SIGNER_TYPE = struct(web3signer="web3signer")
@@ -208,6 +210,7 @@ VOLUME_SIZE = {
         "nimbus_volume_size": 500000,  # 500GB
         "lodestar_volume_size": 500000,  # 500GB
         "grandine_volume_size": 500000,  # 500GB
+        "cerver_volume_size": 500000,  # 500GB
     },
     "sepolia": {
         "geth_volume_size": 300000,  # 300GB
@@ -288,6 +291,7 @@ VOLUME_SIZE = {
         "nimbus_volume_size": 1000,  # 1GB
         "lodestar_volume_size": 1000,  # 1GB
         "grandine_volume_size": 1000,  # 1GB
+        "cerver_volume_size": 1000,  # 1GB
     },
     "hoodi": {
         "geth_volume_size": 100000,  # 100GB
