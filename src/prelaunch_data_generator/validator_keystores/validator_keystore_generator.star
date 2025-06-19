@@ -23,6 +23,9 @@ PRYSM_DIRNAME = "prysm"
 TEKU_KEYS_DIRNAME = "teku-keys"
 TEKU_SECRETS_DIRNAME = "teku-secrets"
 
+CERVER_KEYS_DIRNAME = "cerver-keys"
+CERVER_SECRETS_DIRNAME = "cerver-secrets"
+
 KEYSTORE_GENERATION_FINISHED_FILEPATH_FORMAT = "/tmp/keystores_generated-{0}-{1}"
 
 SERVICE_NAME_PREFIX = "validator-key-generation-"
@@ -111,10 +114,12 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         all_sub_command_strs.append(generate_keystores_cmd)
 
         teku_permissions_cmd = "chmod 0777 -R " + output_dirpath + TEKU_KEYS_DIRNAME
+        cerver_permissions_cmd = "chmod 0777 -R " + output_dirpath + CERVER_KEYS_DIRNAME
         raw_secret_permissions_cmd = (
             "chmod 0600 -R " + output_dirpath + RAW_SECRETS_DIRNAME
         )
         all_sub_command_strs.append(teku_permissions_cmd)
+        all_sub_command_strs.append(cerver_permissions_cmd)
         all_sub_command_strs.append(raw_secret_permissions_cmd)
 
         running_total_validator_count += participant.validator_count
@@ -164,6 +169,8 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
             shared_utils.path_join(base_dirname_in_artifact, PRYSM_DIRNAME),
             shared_utils.path_join(base_dirname_in_artifact, TEKU_KEYS_DIRNAME),
             shared_utils.path_join(base_dirname_in_artifact, TEKU_SECRETS_DIRNAME),
+            shared_utils.path_join(base_dirname_in_artifact, CERVER_KEYS_DIRNAME),
+            shared_utils.path_join(base_dirname_in_artifact, CERVER_SECRETS_DIRNAME),
         )
 
         keystore_files.append(to_add)
@@ -243,10 +250,14 @@ def generate_valdiator_keystores_in_parallel(
         teku_permissions_cmd = (
             " && chmod 777 -R " + output_dirpath + "/" + TEKU_KEYS_DIRNAME
         )
+        cerver_permissions_cmd = (
+            " && chmod 777 -R " + output_dirpath + "/" + CERVER_KEYS_DIRNAME
+        )
         raw_secret_permissions_cmd = (
             " && chmod 0600 -R " + output_dirpath + "/" + RAW_SECRETS_DIRNAME
         )
         generate_keystores_cmd += teku_permissions_cmd
+        generate_keystores_cmd += cerver_permissions_cmd
         generate_keystores_cmd += raw_secret_permissions_cmd
         all_generation_commands.append(generate_keystores_cmd)
         all_output_dirpaths.append(output_dirpath)
@@ -321,6 +332,8 @@ def generate_valdiator_keystores_in_parallel(
             shared_utils.path_join(base_dirname_in_artifact, PRYSM_DIRNAME),
             shared_utils.path_join(base_dirname_in_artifact, TEKU_KEYS_DIRNAME),
             shared_utils.path_join(base_dirname_in_artifact, TEKU_SECRETS_DIRNAME),
+            shared_utils.path_join(base_dirname_in_artifact, CERVER_KEYS_DIRNAME),
+            shared_utils.path_join(base_dirname_in_artifact, CERVER_SECRETS_DIRNAME),
         )
 
         keystore_files.append(to_add)
