@@ -8,9 +8,9 @@ constants = import_module("../../package_io/constants.star")
 vc_shared = import_module("../../vc/shared.star")
 
 #  ---------------------------------- Beacon client -------------------------------------
-CERVER_BINARY_FILEPATH_IN_IMAGE = "/cerver/cerver.py"
+CERVER_BINARY_FILEPATH_IN_IMAGE = "/app/cerver.py"
 
-# The Docker container runs as the "teku" user so we can't write to root
+# The Docker container runs as the "cerver" user so we can't write to root
 BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER = "/data/cerver/cerver-beacon-data"
 
 # Port nums
@@ -155,11 +155,11 @@ def get_beacon_config(
     if node_keystore_files:
         validator_keys_dirpath = shared_utils.path_join(
             constants.VALIDATOR_KEYS_DIRPATH_ON_SERVICE_CONTAINER,
-            node_keystore_files.teku_keys_relative_dirpath,
+            node_keystore_files.cerver_keys_relative_dirpath,
         )
         validator_secrets_dirpath = shared_utils.path_join(
             constants.VALIDATOR_KEYS_DIRPATH_ON_SERVICE_CONTAINER,
-            node_keystore_files.teku_secrets_relative_dirpath,
+            node_keystore_files.cerver_secrets_relative_dirpath,
         )
     # If snooper is enabled use the snooper engine context, otherwise use the execution client context
     if participant.snooper_enabled:
@@ -364,7 +364,7 @@ def get_beacon_config(
             size=int(participant.cl_volume_size)
             if int(participant.cl_volume_size) > 0
             else constants.VOLUME_SIZE[volume_size_key][
-                constants.CL_TYPE.teku + "_volume_size"
+                constants.CL_TYPE.cerver + "_volume_size"
             ],
         )
 
