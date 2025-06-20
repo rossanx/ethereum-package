@@ -19,6 +19,7 @@ DEFAULT_EL_IMAGES = {
 DEFAULT_CL_IMAGES = {
     "lighthouse": "sigp/lighthouse:latest",
     "teku": "consensys/teku:develop",
+    "cerver": "rpp/cerver:latest",
     "nimbus": "statusim/nimbus-eth2:multiarch-latest",
     "prysm": "gcr.io/offchainlabs/prysm/beacon-chain:stable",
     "lodestar": "chainsafe/lodestar:latest",
@@ -28,6 +29,7 @@ DEFAULT_CL_IMAGES = {
 DEFAULT_CL_IMAGES_MINIMAL = {
     "lighthouse": "ethpandaops/lighthouse:stable",
     "teku": "consensys/teku:develop",
+    "cerver": "rpp/cerver:latest",
     "nimbus": "ethpandaops/nimbus-eth2:stable-minimal",
     "prysm": "ethpandaops/prysm-beacon-chain:develop-minimal",
     "lodestar": "chainsafe/lodestar:latest",
@@ -40,6 +42,7 @@ DEFAULT_VC_IMAGES = {
     "nimbus": "statusim/nimbus-validator-client:multiarch-latest",
     "prysm": "gcr.io/offchainlabs/prysm/validator:stable",
     "teku": "consensys/teku:develop",
+    "cerver": "rpp/cerver:latest",
     "grandine": "sifrai/grandine:stable",
     "vero": "ghcr.io/serenita-org/vero:master",
 }
@@ -50,6 +53,7 @@ DEFAULT_VC_IMAGES_MINIMAL = {
     "nimbus": "ethpandaops/nimbus-validator-client:stable-minimal",
     "prysm": "ethpandaops/prysm-validator:develop-minimal",
     "teku": "consensys/teku:develop",
+    "cerver": "rpp/cerver:latest",
     "grandine": "ethpandaops/grandine:develop-minimal",
     "vero": "ghcr.io/serenita-org/vero:master",
 }
@@ -721,6 +725,7 @@ def parse_network_params(plan, input_args):
                     constants.CL_TYPE.nimbus,
                     constants.CL_TYPE.teku,
                     constants.CL_TYPE.grandine,
+                    constants.CL_TYPE.cerver,
                 )
                 and vc_type == ""
             ):
@@ -1454,6 +1459,8 @@ def enrich_disable_peer_scoring(parsed_arguments_dict):
             participant["cl_extra_params"].append("--disable-peer-scorer")
         if participant["cl_type"] == "teku":
             participant["cl_extra_params"].append("--Xp2p-gossip-scoring-enabled")
+        if participant["cl_type"] == "cerver":
+            participant["cl_extra_params"].append("--Xp2p-gossip-scoring-enabled")
         if participant["cl_type"] == "lodestar":
             participant["cl_extra_params"].append("--disablePeerScoring")
         if participant["cl_type"] == "grandine":
@@ -1502,6 +1509,17 @@ def enrich_mev_extra_params(parsed_arguments_dict, mev_prefix, mev_port, mev_typ
                 "--validators-builder-registration-default-enabled=true"
             )
         if participant["vc_type"] == "teku":
+            participant["vc_extra_params"].append(
+                "--validators-builder-registration-default-enabled=true"
+            )
+        if participant["cl_type"] == "cerver":
+            participant["cl_extra_params"].append(
+                "--builder-endpoint={0}".format(mev_url)
+            )
+            participant["cl_extra_params"].append(
+                "--validators-builder-registration-default-enabled=true"
+            )
+        if participant["vc_type"] == "cerver":
             participant["vc_extra_params"].append(
                 "--validators-builder-registration-default-enabled=true"
             )
