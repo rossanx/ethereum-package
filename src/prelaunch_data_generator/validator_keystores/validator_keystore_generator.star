@@ -114,6 +114,7 @@ def generate_validator_keystores(plan, mnemonic, participants, docker_cache_para
         all_sub_command_strs.append(generate_keystores_cmd)
 
         teku_permissions_cmd = "chmod 0777 -R " + output_dirpath + TEKU_KEYS_DIRNAME
+        # RPP - I had to force the creation of the directory
         cerver_mkdir_cmd = "mkdir -p " + output_dirpath + CERVER_KEYS_DIRNAME
         cerver_permissions_cmd = "chmod 0777 -R " + output_dirpath + CERVER_KEYS_DIRNAME
         raw_secret_permissions_cmd = (
